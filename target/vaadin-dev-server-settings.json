@@ -1,0 +1,17 @@
+{
+  "frontendFolder": "C:/Users/User/Desktop/administrador-de-turma/./frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "C:/Users/User/Desktop/administrador-de-turma/./frontend/generated/jar-resources",
+  "staticOutput": "C:/Users/User/Desktop/administrador-de-turma/target/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "C:\\Users\\User\\Desktop\\administrador-de-turma\\target\\classes\\META-INF\\VAADIN\\config",
+  "frontendBundleOutput": "C:\\Users\\User\\Desktop\\administrador-de-turma\\target\\classes\\META-INF\\VAADIN\\webapp",
+  "devBundleOutput": "C:/Users/User/Desktop/administrador-de-turma/src/main/dev-bundle/webapp",
+  "devBundleStatsOutput": "C:/Users/User/Desktop/administrador-de-turma/src/main/dev-bundle/config",
+  "jarResourcesFolder": "C:/Users/User/Desktop/administrador-de-turma/./frontend/generated/jar-resources",
+  "themeName": "myapp",
+  "clientServiceWorkerSource": "C:\\Users\\User\\Desktop\\administrador-de-turma\\target\\sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}
