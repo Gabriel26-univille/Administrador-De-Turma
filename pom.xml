@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <!-- Project from https://start.vaadin.com/project/c4e762db-fe94-401a-afeb-897a225549e7 -->
     <groupId>com.example.application</groupId>
-    <artifactId>administradordeturma</artifactId>
-    <name>administradordeturma</name>
+    <artifactId>administradordeturmamain</artifactId>
+    <name>administradordeturmamain</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
