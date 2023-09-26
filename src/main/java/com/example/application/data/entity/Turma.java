@@ -10,10 +10,12 @@ public class Turma {
     @Id
     private int Matricula;
     private String Nome;
-    private int Nota1;
-    private int Nota2;
-    private int Nota3;
-    private int Nota4;
+    private int Faltas;
+    private int N1;
+    private int N2;
+    private int N3;
+    private int N4;
+    private boolean Aprovacao;
 
     public int getMatricula() {
         return Matricula;
@@ -31,35 +33,51 @@ public class Turma {
         Nome = nome;
     }
 
-    public int getNota1() {
-        return Nota1;
+    public int getN1() {
+        return N1;
     }
 
-    public void setNota1(int nota1) {
-        Nota1 = nota1;
+    public void setN1(int nota1) {
+        N1 = nota1;
     }
 
-    public int getNota2() {
-        return Nota2;
+    public int getN2() {
+        return N2;
     }
 
-    public void setNota2(int nota2) {
-        Nota2 = nota2;
+    public void setN2(int nota2) {
+        N2 = nota2;
     }
 
-    public int getNota3() {
-        return Nota3;
+    public int getN3() {
+        return N3;
     }
 
-    public void setNota3(int nota3) {
-        Nota3 = nota3;
+    public void setN3(int nota3) {
+        N3 = nota3;
     }
 
-    public int getNota4() {
-        return Nota4;
+    public int getN4() {
+        return N4;
     }
 
-    public void setNota4(int nota4) {
-        Nota4 = nota4;
+    public void setN4(int nota4) {
+        N4 = nota4;
+    }
+
+    public int getFaltas() {
+        return Faltas;
+    }
+
+    public void setFaltas(int falta) {
+        Faltas = falta;
+    }
+
+    public boolean isAprovacao() {
+        return Aprovacao;
+    }
+
+    public void setAprovacao(boolean aprovacao) {
+        Aprovacao = aprovacao;
     }
 }

@@ -39,8 +39,19 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
         Button buttonPrimary = new Button();
         Button buttonPrimary2 = new Button();
 
-        Grid turma = new Grid(Turma.class);
+        //----------------------Componentes Grade-----------------------
+
+        Grid<Turma> turma = new Grid(Turma.class, false);
         setGridSampleData(turma);
+
+        turma.addColumn(Turma::getMatricula).setHeader("Matricula");
+        turma.addColumn(Turma::getNome).setHeader("Nome");
+        turma.addColumn(Turma::getFaltas).setHeader("Faltas");
+        turma.addColumn(Turma::getN1).setHeader("Nota1");
+        turma.addColumn(Turma::getN2).setHeader("Nota2");
+        turma.addColumn(Turma::getN3).setHeader("Nota3");
+        turma.addColumn(Turma::getN4).setHeader("Nota4");
+        turma.addColumn(Turma::isAprovacao).setHeader("Aprovação");
 
         //----------------------Botoes-----------------------
 

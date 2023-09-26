@@ -1,7 +1,7 @@
 package com.example.application.views;
 
-import com.example.application.data.entity.Turma;
-import com.example.application.data.service.TurmaService;
+import com.example.application.data.entity.Alunos;
+import com.example.application.data.service.AlunosService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
@@ -39,16 +39,25 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
         TabSheet tabSheet = new TabSheet();
         Button voltar = new Button(new Icon(VaadinIcon.ARROW_BACKWARD));
 
-        Grid turma = new Grid(Turma.class);
-        setGridSampleData(turma);
-
         NumberField matriculaEditar = new NumberField();
         NumberField matriculaExcluir = new NumberField();
         TextField novoAlunoNome = new TextField();
+        TextField editarAlunoNome = new TextField();
 
         Button adicionarAluno = new Button("Adicionar");
         Button editarAluno = new Button("Editar");
         Button excluirAluno = new Button("Excluir");
+
+        //----------------------Componentes Grade-----------------------
+
+        Grid<Alunos> alunos = new Grid(Alunos.class, false);
+        setGridSampleData(alunos);
+
+        alunos.addColumn(Alunos::getMatricula)
+                .setHeader("Matricula")
+                .setFlexGrow(0)
+                .setWidth("100px");
+        alunos.addColumn(Alunos::getNome).setHeader("Nome");
 
         //----------------------Alinhamentos-----------------------
 
@@ -72,6 +81,7 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
         //----------------------Botoes-----------------------
 
         novoAlunoNome.setPlaceholder("Nome");
+        editarAlunoNome.setPlaceholder("Novo nome");
         matriculaEditar.setPlaceholder("Matricula");
         matriculaExcluir.setPlaceholder("Matricula");
 
@@ -104,12 +114,12 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
         //-----------------------Adds-----------------------
 
         addAluno.add(novoAlunoNome, adicionarAluno);
-        ediAluno.add(matriculaEditar, editarAluno);
+        ediAluno.add(matriculaEditar, editarAlunoNome, editarAluno);
         excAluno.add(matriculaExcluir, excluirAluno);
 
         getContent().add(voltar);
         getContent().add(h1);
-        getContent().add(turma);
+        getContent().add(alunos);
         getContent().add(tabSheet);
     }
 
@@ -122,7 +132,7 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
     }
 
     @Autowired()
-    private TurmaService samplePersonService;
+    private AlunosService samplePersonService;
 
     record SampleItem(String value, String label, Boolean disabled) {
     }
