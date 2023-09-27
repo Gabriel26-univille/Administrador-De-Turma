@@ -1,6 +1,6 @@
 package com.example.application.data.service;
 
-import com.example.application.data.entity.Turma;
+import com.example.application.data.entity.Boletim;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +16,11 @@ public class TurmaService {
         this.repository = repository;
     }
 
-    public Optional<Turma> get(Long id) {
+    public Optional<Boletim> get(Long id) {
         return repository.findById(id);
     }
 
-    public Turma update(Turma entity) {
+    public Boletim update(Boletim entity) {
         return repository.save(entity);
     }
 
@@ -28,11 +28,11 @@ public class TurmaService {
         repository.deleteById(id);
     }
 
-    public Page<Turma> list(Pageable pageable) {
+    public Page<Boletim> list(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    public Page<Turma> list(Pageable pageable, Specification<Turma> filter) {
+    public Page<Boletim> list(Pageable pageable, Specification<Boletim> filter) {
         return repository.findAll(filter, pageable);
     }
 

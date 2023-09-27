@@ -1,6 +1,6 @@
 package com.example.application.views;
 
-import com.example.application.data.entity.Turma;
+import com.example.application.data.entity.Boletim;
 import com.example.application.data.service.TurmaService;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
@@ -41,17 +41,17 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
 
         //----------------------Componentes Grade-----------------------
 
-        Grid<Turma> turma = new Grid(Turma.class, false);
+        Grid<Boletim> turma = new Grid(Boletim.class, false);
         setGridSampleData(turma);
 
-        turma.addColumn(Turma::getMatricula).setHeader("Matricula");
-        turma.addColumn(Turma::getNome).setHeader("Nome");
-        turma.addColumn(Turma::getFaltas).setHeader("Faltas");
-        turma.addColumn(Turma::getN1).setHeader("Nota1");
-        turma.addColumn(Turma::getN2).setHeader("Nota2");
-        turma.addColumn(Turma::getN3).setHeader("Nota3");
-        turma.addColumn(Turma::getN4).setHeader("Nota4");
-        turma.addColumn(Turma::isAprovacao).setHeader("Aprovação");
+        turma.addColumn(Boletim::getMatricula).setHeader("Matricula");
+        turma.addColumn(Boletim::getNome).setHeader("Nome");
+        turma.addColumn(Boletim::getFaltas).setHeader("Faltas");
+        turma.addColumn(Boletim::getN1).setHeader("Nota1");
+        turma.addColumn(Boletim::getN2).setHeader("Nota2");
+        turma.addColumn(Boletim::getN3).setHeader("Nota3");
+        turma.addColumn(Boletim::getN4).setHeader("Nota4");
+        turma.addColumn(Boletim::isAprovacao).setHeader("Aprovação");
 
         //----------------------Botoes-----------------------
 

@@ -1,12 +1,12 @@
 package com.example.application.data.service;
 
-import com.example.application.data.entity.Turma;
+import com.example.application.data.entity.Boletim;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface TurmaRepository
         extends
-            JpaRepository<Turma, Long>,
-            JpaSpecificationExecutor<Turma> {
+            JpaRepository<Boletim, Long>,
+            JpaSpecificationExecutor<Boletim> {
 
 }

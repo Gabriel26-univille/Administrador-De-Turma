@@ -1,6 +1,7 @@
 package com.example.application;
 
 import com.example.application.data.service.TurmaRepository;
+import com.example.application.persistencia.Services;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
 import javax.sql.DataSource;
@@ -22,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
+        Services Services = new Services();
         SpringApplication.run(Application.class, args);
     }
 

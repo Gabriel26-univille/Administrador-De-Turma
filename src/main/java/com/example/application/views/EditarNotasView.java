@@ -1,6 +1,5 @@
 package com.example.application.views;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -20,13 +19,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import com.example.application.data.entity.Turma;
+import com.example.application.data.entity.Boletim;
 import com.example.application.data.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-
-import java.awt.*;
-import java.util.Collection;
 
 @PageTitle("Editar Notas")
 @Route(value = "editar-notas", layout = MainLayout.class)
@@ -52,16 +48,16 @@ public class EditarNotasView extends Composite<VerticalLayout> {
 
         //----------------------Componentes Grade-----------------------
 
-        Grid<Turma> turma = new Grid(Turma.class, false);
+        Grid<Boletim> turma = new Grid(Boletim.class, false);
         setGridSampleData(turma);
 
-        turma.addColumn(Turma::getMatricula).setHeader("Matricula");
-        turma.addColumn(Turma::getNome).setHeader("Nome");
-        turma.addColumn(Turma::getFaltas).setHeader("Faltas");
-        turma.addColumn(Turma::getN1).setHeader("Nota1");
-        turma.addColumn(Turma::getN2).setHeader("Nota2");
-        turma.addColumn(Turma::getN3).setHeader("Nota3");
-        turma.addColumn(Turma::getN4).setHeader("Nota4");
+        turma.addColumn(Boletim::getMatricula).setHeader("Matricula");
+        turma.addColumn(Boletim::getNome).setHeader("Nome");
+        turma.addColumn(Boletim::getFaltas).setHeader("Faltas");
+        turma.addColumn(Boletim::getN1).setHeader("Nota1");
+        turma.addColumn(Boletim::getN2).setHeader("Nota2");
+        turma.addColumn(Boletim::getN3).setHeader("Nota3");
+        turma.addColumn(Boletim::getN4).setHeader("Nota4");
 
         //----------------------Alinhamentos-----------------------
 
