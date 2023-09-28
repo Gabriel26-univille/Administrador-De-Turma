@@ -29,6 +29,9 @@ public class Alunos {
 
     @Override
     public String toString() {
-        return Nome;
+        return "Alunos{" +
+                "Matricula=" + Matricula +
+                ", Nome='" + Nome + '\'' +
+                '}';
     }
 }

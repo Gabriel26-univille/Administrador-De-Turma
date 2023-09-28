@@ -26,7 +26,11 @@ public class Application implements AppShellConfigurator {
     public static void main(String[] args) {
         Services Services = new Services();
         Alunos alunos = new Alunos();
-        System.out.println(Services.obterPelaMatricula(3));
+        var opt = Services.obterPelaMatricula(3);
+        if(opt.isPresent()){
+            Alunos a = opt.get();
+            System.out.println(a.getNome());
+        }
 
 
 
