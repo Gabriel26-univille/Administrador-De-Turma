@@ -80,4 +80,18 @@ public class Boletim {
     public void setAprovacao(boolean aprovacao) {
         Aprovacao = aprovacao;
     }
+
+    @Override
+    public String toString() {
+        return "Boletim{" +
+                "Matricula=" + Matricula +
+                ", Nome='" + Nome + '\'' +
+                ", Faltas=" + Faltas +
+                ", N1=" + N1 +
+                ", N2=" + N2 +
+                ", N3=" + N3 +
+                ", N4=" + N4 +
+                ", Aprovacao=" + Aprovacao +
+                '}';
+    }
 }

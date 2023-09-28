@@ -1,5 +1,6 @@
 package com.example.application;
 
+import com.example.application.data.entity.Alunos;
 import com.example.application.data.service.TurmaRepository;
 import com.example.application.persistencia.Services;
 import com.vaadin.flow.component.page.AppShellConfigurator;
@@ -24,6 +25,12 @@ public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
         Services Services = new Services();
+        Alunos alunos = new Alunos();
+        System.out.println(Services.obterPelaMatricula(3));
+
+
+
+
         SpringApplication.run(Application.class, args);
     }
 
