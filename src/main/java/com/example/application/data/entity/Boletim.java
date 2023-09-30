@@ -8,13 +8,14 @@ import jakarta.persistence.Id;
 public class Boletim {
 
     @Id
+    private int Boletim_id;
     private int Matricula;
     private String Nome;
     private int Faltas;
-    private int N1;
-    private int N2;
-    private int N3;
-    private int N4;
+    private float N1;
+    private float N2;
+    private float N3;
+    private float N4;
     private boolean Aprovacao;
 
     public int getMatricula() {
@@ -33,7 +34,7 @@ public class Boletim {
         Nome = nome;
     }
 
-    public int getN1() {
+    public float getN1() {
         return N1;
     }
 
@@ -41,7 +42,8 @@ public class Boletim {
         N1 = nota1;
     }
 
-    public int getN2() {
+    public float
+    getN2() {
         return N2;
     }
 
@@ -49,7 +51,7 @@ public class Boletim {
         N2 = nota2;
     }
 
-    public int getN3() {
+    public float getN3() {
         return N3;
     }
 
@@ -57,7 +59,7 @@ public class Boletim {
         N3 = nota3;
     }
 
-    public int getN4() {
+    public float getN4() {
         return N4;
     }
 
@@ -80,6 +82,10 @@ public class Boletim {
     public void setAprovacao(boolean aprovacao) {
         Aprovacao = aprovacao;
     }
+
+    public int getBoletim_id() {return Boletim_id;}
+
+    public void setBoletim_id(int boletim_id) {Boletim_id = boletim_id;}
 
     @Override
     public String toString() {

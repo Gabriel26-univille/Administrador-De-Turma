@@ -1,6 +1,7 @@
 package com.example.application.persistencia;
 
 import com.example.application.data.entity.Alunos;
+import com.example.application.data.entity.Boletim;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -86,6 +87,30 @@ public class Services extends GenericDAO {
         }
         return Optional.ofNullable(t);
     }
+
+    public void inserirNota(Boletim boletim, int matricula){
+        String sql = """
+                insert into boletim(nota1,nota2,nota3,nota4,matricula,aprovado) values(?,?,?,?,?,?)
+                """;
+        try(Connection c = conn();
+            PreparedStatement p = c.prepareStatement(sql)){
+            p.setFloat(1,boletim.getN1());
+            p.setFloat(2,boletim.getN2());
+            p.setFloat(3,boletim.getN3());
+            p.setFloat(4,boletim.getN4());
+            p.setInt(5,matricula);
+            boolean aprovado = false;
+            float mean = (boletim.getN1() + boletim.getN2() + boletim.getN3() + boletim.getN4())/4;
+            if (mean >= 7.0){aprovado=true;}
+            p.setBoolean(6,aprovado);
+            p.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("Erro ao inserir notas ");
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 
