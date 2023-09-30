@@ -35,6 +35,7 @@ public class Application implements AppShellConfigurator {
         boletim.setN2(8);
         boletim.setN3(10);
         boletim.setN4(9);
+        boletim.setFaltas(20);
         Services.inserirAluno(alunos);
         Services.inserirNota(boletim,1);
 

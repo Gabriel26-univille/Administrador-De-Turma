@@ -74,7 +74,7 @@ public class Services extends GenericDAO {
         Alunos t = null;
         try(Connection c = conn();
             PreparedStatement p = c.prepareStatement(sql)){
-            p.setLong(1,matricula);
+            p.setInt(1,matricula);
             ResultSet r = p.executeQuery();
             if(r.next()){
                 t = new Alunos();
@@ -104,7 +104,7 @@ public class Services extends GenericDAO {
 
     public void inserirNota(Boletim boletim, int matricula){
         String sql = """
-                insert into boletim(nota1,nota2,nota3,nota4,matricula,aprovado) values(?,?,?,?,?,?)
+                insert into boletim(nota1,nota2,nota3,nota4,matricula,aprovado,faltas) values(?,?,?,?,?,?,?)
                 """;
         removeNota(matricula);
         try(Connection c = conn();
@@ -114,6 +114,7 @@ public class Services extends GenericDAO {
             p.setFloat(3,boletim.getN3());
             p.setFloat(4,boletim.getN4());
             p.setInt(5,matricula);
+            p.setInt(7,boletim.getFaltas());
             boolean aprovado = false;
             float mean = (boletim.getN1() + boletim.getN2() + boletim.getN3() + boletim.getN4())/4;
             if (mean >= 7.0){aprovado=true;}
@@ -125,6 +126,37 @@ public class Services extends GenericDAO {
         }
     }
 
+    public Optional<Boletim> obterBoletim(Integer matricula){
+        String sql = """
+                select matricula, nota1, nota2, nota3, nota4, faltas, aprovado from aluno where matricula = ?           
+                """;
+        Boletim t = null;
+        String nome = "";
+        Optional<Alunos> a = obterPelaMatricula(matricula);
+        if(a.isPresent()){
+            Alunos b = a.get();
+            nome = b.getNome();
+        }
+        try(Connection c = conn();
+            PreparedStatement p = c.prepareStatement(sql)){
+            p.setInt(1,matricula);
+            ResultSet r = p.executeQuery();
+            if(r.next()){
+                t = new Boletim();
+                t.setMatricula(r.getInt("matricula"));
+                t.setN1(r.getInt("nota1"));
+                t.setN2(r.getInt("nota2"));
+                t.setN3(r.getInt("nota3"));
+                t.setN4(r.getInt("nota4"));
+                t.setFaltas(r.getInt("faltas"));
+                t.setAprovacao(r.getBoolean("aprovado"));
+            }
+        }catch (SQLException e){
+            System.out.println("Erro ao obter boletim do aluno com matricula "+matricula);
+            e.printStackTrace();
+        }
+        return Optional.ofNullable(t);
+    }
 
 
 
