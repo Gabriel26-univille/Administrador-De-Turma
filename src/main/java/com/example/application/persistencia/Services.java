@@ -88,10 +88,25 @@ public class Services extends GenericDAO {
         return Optional.ofNullable(t);
     }
 
+    private void removeNota(int matricula){
+        String sql = """
+                delete from boletim where matricula = ?
+                """;
+        try(Connection c = conn();
+            PreparedStatement p = c.prepareStatement(sql)){
+            p.setInt(1,matricula);
+            p.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("Erro ao remover registro ");
+            e.printStackTrace();
+        }
+    }
+
     public void inserirNota(Boletim boletim, int matricula){
         String sql = """
                 insert into boletim(nota1,nota2,nota3,nota4,matricula,aprovado) values(?,?,?,?,?,?)
                 """;
+        removeNota(matricula);
         try(Connection c = conn();
             PreparedStatement p = c.prepareStatement(sql)){
             p.setFloat(1,boletim.getN1());
