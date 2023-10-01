@@ -40,6 +40,32 @@ public class Services extends GenericDAO {
             System.out.println("Erro ao inserir aluno "+aluno);
             e.printStackTrace();
         }
+        defaultInsertBoletim();
+    }
+
+    private void defaultInsertBoletim(){
+        String sql = """
+                select seq from sqlite_sequence where name = "aluno"
+                """;
+        Boletim t = null;
+        try(Connection c = conn();
+            PreparedStatement p = c.prepareStatement(sql)){
+            ResultSet r = p.executeQuery();
+            while(r.next()){
+                t = new Boletim();
+                t.setMatricula(r.getInt("seq"));
+                t.setN1(0);
+                t.setN2(0);
+                t.setN3(0);
+                t.setN4(0);
+                t.setFaltas(0);
+                t.setAprovacao(false);
+            }
+        }catch (SQLException e){
+            System.out.println("Erro ao fazer insert default na tabela boletim");
+            e.printStackTrace();
+        }
+        inserirNota(t);
     }
 
     public void delAluno(int matricula){
@@ -113,6 +139,33 @@ public class Services extends GenericDAO {
         return lista;
     }
 
+    public List<Boletim> obterTodoBoletim(){
+        String sql = """
+                select nota1,nota2,nota3,nota4,matricula,aprovado,faltas,nome from boletim inner join alunos on aluno.matricula = boletim.matricula
+                """;
+        List<Boletim> lista = new ArrayList<>();
+        try(Connection c = conn();
+            PreparedStatement p = c.prepareStatement(sql)){
+            ResultSet r = p.executeQuery();
+            while(r.next()){
+                Boletim b = new Boletim();
+                b.setN1(r.getFloat("nota1"));
+                b.setN2(r.getFloat("nota2"));
+                b.setN3(r.getFloat("nota3"));
+                b.setN4(r.getFloat("nota4"));
+                b.setMatricula(r.getInt("matricula"));
+                b.setAprovacao(r.getBoolean("aprovado"));
+                b.setFaltas(r.getInt("faltas"));
+                b.setNome(r.getString("nome"));
+                lista.add(b);
+            }
+        }catch (SQLException e){
+            System.out.println("Erro ao obter o boletim completo");
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
     private void removeNota(int matricula){
         String sql = """
                 delete from boletim where matricula = ?
@@ -127,18 +180,18 @@ public class Services extends GenericDAO {
         }
     }
 
-    public void inserirNota(Boletim boletim, int matricula){
+    public void inserirNota(Boletim boletim){
         String sql = """
                 insert into boletim(nota1,nota2,nota3,nota4,matricula,aprovado,faltas) values(?,?,?,?,?,?,?)
                 """;
-        removeNota(matricula);
+        removeNota(boletim.getMatricula());
         try(Connection c = conn();
             PreparedStatement p = c.prepareStatement(sql)){
             p.setFloat(1,boletim.getN1());
             p.setFloat(2,boletim.getN2());
             p.setFloat(3,boletim.getN3());
             p.setFloat(4,boletim.getN4());
-            p.setInt(5,matricula);
+            p.setInt(5,boletim.getMatricula());
             p.setInt(7,boletim.getFaltas());
             boolean aprovado = false;
             float mean = (boletim.getN1() + boletim.getN2() + boletim.getN3() + boletim.getN4())/4;

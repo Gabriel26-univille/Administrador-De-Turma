@@ -26,18 +26,10 @@ public class Application implements AppShellConfigurator {
     public static void main(String[] args) {
         //TESTES DE FUNCIONALIDADE//
 
+
         Services Services = new Services();
         Alunos alunos = new Alunos();
         Boletim boletim = new Boletim();
-        alunos.setNome("Gabriel");
-        boletim.setN1(9);
-        boletim.setN2(8);
-        boletim.setN3(10);
-        boletim.setN4(9);
-        boletim.setFaltas(20);
-        Services.inserirAluno(alunos);
-        Services.inserirNota(boletim,1);
-
         var opt = Services.obterPelaMatricula(1);
         if(opt.isPresent()){
             Alunos a = opt.get();
