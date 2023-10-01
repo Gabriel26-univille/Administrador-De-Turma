@@ -2,8 +2,10 @@ package com.example.application.views;
 
 import com.example.application.persistencia.Services;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
@@ -25,31 +27,36 @@ import com.example.application.data.service.BoletimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
+
+import java.util.List;
+
 @PageTitle("Editar Notas")
 @Route(value = "editar-notas", layout = MainLayout.class)
 @Uses(Icon.class)
 public class EditarNotasView extends Composite<VerticalLayout> {
-
     BoletimService service;
-    private Grid<Boletim> boletim = new Grid(Boletim.class, false);
 
     //----------------------Componentes Grade-----------------------
+    private Grid<Boletim> boletim = new Grid(Boletim.class, false);
     private void configureGrid() {
-        boletim.addColumn(Boletim::getMatricula).setHeader("Matricula");
+        boletim.addColumn(Boletim::getMatricula)
+                .setFlexGrow(0)
+                .setWidth("100px")
+                .setHeader("Matricula");
         boletim.addColumn(Boletim::getNome).setHeader("Nome");
         boletim.addColumn(Boletim::getFaltas).setHeader("Faltas");
         boletim.addColumn(Boletim::getN1).setHeader("Nota1");
         boletim.addColumn(Boletim::getN2).setHeader("Nota2");
         boletim.addColumn(Boletim::getN3).setHeader("Nota3");
         boletim.addColumn(Boletim::getN4).setHeader("Nota4");
-        boletim.addColumn(Boletim::isAprovacao).setHeader("Aprovação");
+        boletim.addColumn(Boletim::isAprovacao).setHeader("Aprovado");
     }
     public EditarNotasView(BoletimService service) {
 
         Services Services = new Services();
         this.service = service;
         configureGrid();
-        //updateGrid();
+        updateGrid();
 
         //----------------------Componentes-----------------------
 
@@ -59,11 +66,11 @@ public class EditarNotasView extends Composite<VerticalLayout> {
         Button voltar = new Button(new Icon(VaadinIcon.ARROW_BACKWARD));
 
         IntegerField faltas = new IntegerField("Faltas");
-        IntegerField nota1 = new IntegerField("Nota 1");
-        IntegerField nota2 = new IntegerField("Nota 2");
-        IntegerField nota3 = new IntegerField("Nota 3");
-        IntegerField nota4 = new IntegerField("Nota 4");
-        NumberField matricula = new NumberField("Matricula");
+        NumberField nota1 = new NumberField("Nota 1");
+        NumberField nota2 = new NumberField("Nota 2");
+        NumberField nota3 = new NumberField("Nota 3");
+        NumberField nota4 = new NumberField("Nota 4");
+        IntegerField matricula = new IntegerField("Matricula");
         Button editarNota = new Button("Confirmar");
 
         //----------------------Alinhamentos-----------------------
@@ -91,22 +98,22 @@ public class EditarNotasView extends Composite<VerticalLayout> {
         nota1.setWidth("6vw");
         nota1.setMin(0);
         nota1.setMax(10);
-        nota1.setValue(0);
+        nota1.setValue(0.0);
 
         nota2.setWidth("6vw");
         nota2.setMin(0);
         nota2.setMax(10);
-        nota2.setValue(0);
+        nota2.setValue(0.0);
 
         nota3.setWidth("6vw");
         nota3.setMin(0);
         nota3.setMax(10);
-        nota3.setValue(0);
+        nota3.setValue(0.0);
 
         nota4.setWidth("6vw");
         nota4.setMin(0);
         nota4.setMax(10);
-        nota4.setValue(0);
+        nota4.setValue(0.0);
 
         matricula.setMin(1);
 
@@ -119,9 +126,24 @@ public class EditarNotasView extends Composite<VerticalLayout> {
                         ui.navigate("tela-principal"))
         );
 
-        /*
-        editarNota.addClickListener();
-        */
+        editarNota.addClickListener(
+                notaAd -> {
+                    if(nota1.getValue().floatValue() <= 10 & nota1.getValue().floatValue() >= 0){
+                        if(nota2.getValue().floatValue() <= 10 & nota2.getValue().floatValue() >= 0){
+                            if(nota3.getValue().floatValue() <= 10 & nota3.getValue().floatValue() >= 0){
+                                if(nota4.getValue().floatValue() <= 10 & nota4.getValue().floatValue() >= 0){
+                        Boletim boletim = new Boletim();
+                        boletim.setN1(nota1.getValue().floatValue());
+                        boletim.setN2(nota2.getValue().floatValue());
+                        boletim.setN3(nota3.getValue().floatValue());
+                        boletim.setN4(nota4.getValue().floatValue());
+                        boletim.setMatricula(matricula.getValue());
+                        boletim.setFaltas(faltas.getValue());
+                        Services.inserirNota(boletim);
+                    }}}}
+                    updateGrid();
+                });
+        editarNota.addClickShortcut(Key.ENTER);
 
         //-----------------------Adds-----------------------
 
@@ -138,29 +160,15 @@ public class EditarNotasView extends Composite<VerticalLayout> {
         layoutRow.add(nota3);
         layoutRow.add(nota4);
 
+
         layoutRow2.add(editarNota);
     }
 
     //-----------------------grade-----------------------
 
-    private void setGridSampleData(Grid grid) {
-        grid.setItems(query -> samplePersonService.list(
-                        PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
-                .stream());
+    private void updateGrid() {
+        List<Boletim> listaBoletim = service.findAll();
+        boletim.setItems(listaBoletim);
+
     }
-
-    @Autowired()
-    private BoletimService samplePersonService;
-
-    record SampleItem(String value, String label, Boolean disabled) {
-    }
-
-    /*
-        private void updateGrid() {
-            List<Alunos> listaAlunos = service.findAll();
-            boletim.setItems(listaAlunos);
-
-        }
-
-         */
 }

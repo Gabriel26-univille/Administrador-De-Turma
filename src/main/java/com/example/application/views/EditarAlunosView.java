@@ -106,7 +106,6 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
                     aluno.setNome(novoAlunoNome.getValue());
                     Services.inserirAluno(aluno);
                     updateGrid();
-                    grid.getDataProvider().refreshAll();
                 });
         adicionarAluno.addClickShortcut(Key.ENTER);
 
@@ -117,7 +116,6 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
                     aluno.setMatricula(matriculaEditar.getValue());
                     Services.atualizaAluno(aluno);
                     updateGrid();
-                    grid.getDataProvider().refreshAll();
                 });
         editarAluno.addClickShortcut(Key.ENTER);
 
@@ -125,7 +123,6 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
                 alunoEx ->{
                     Services.delAluno(matriculaExcluir.getValue());
                     updateGrid();
-                    grid.getDataProvider().refreshAll();
                 });
         excluirAluno.addClickShortcut(Key.ENTER);
 
@@ -158,32 +155,10 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
 
     //-----------------------grade-----------------------
 
-    private void setGridSampleData(Grid grid) {
-        grid.setItems(query -> samplePersonService.list(
-                        PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
-                .stream());
-    }
-
-    @Autowired()
-    private AlunosService samplePersonService;
-
-    record SampleItem(String value, String label, Boolean disabled) {
-    }
-
     private void updateGrid() {
         List<Alunos> listaAlunos = service.findAll();
         grid.setItems(listaAlunos);
 
     }
-
-        /*
-        var opt = Services.obterPelaMatricula(3);
-        if(opt.isPresent()){
-            Alunos a = opt.get();
-            System.out.println(a.getNome());
-
-
-        }
-        */
 
 }
