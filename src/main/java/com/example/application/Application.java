@@ -24,22 +24,6 @@ import org.springframework.context.annotation.Bean;
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
-        //TESTES DE FUNCIONALIDADE//
-
-
-        Services Services = new Services();
-        Alunos alunos = new Alunos();
-        Boletim boletim = new Boletim();
-        var opt = Services.obterPelaMatricula(1);
-        if(opt.isPresent()){
-            Alunos a = opt.get();
-            System.out.println(a.getNome());
-        }
-
-        //FIM DOS TESTES//
-
-
-
         SpringApplication.run(Application.class, args);
     }
 /*
