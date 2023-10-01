@@ -1,7 +1,9 @@
 package com.example.application.views;
 
+import com.example.application.data.entity.Alunos;
 import com.example.application.data.entity.Boletim;
-import com.example.application.data.service.TurmaService;
+import com.example.application.data.service.BoletimService;
+import com.example.application.persistencia.Services;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -21,13 +23,34 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 @PageTitle("Tela Principal")
 @Route(value = "tela-principal", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
 public class TelaPrincipalView extends Composite<VerticalLayout> {
 
-    public TelaPrincipalView() {
+    BoletimService service;
+    private Grid<Boletim> boletim = new Grid(Boletim.class, false);
+
+    //----------------------Componentes Grade-----------------------
+    private void configureGrid() {
+        boletim.addColumn(Boletim::getMatricula).setHeader("Matricula");
+        boletim.addColumn(Boletim::getNome).setHeader("Nome");
+        boletim.addColumn(Boletim::getFaltas).setHeader("Faltas");
+        boletim.addColumn(Boletim::getN1).setHeader("Nota1");
+        boletim.addColumn(Boletim::getN2).setHeader("Nota2");
+        boletim.addColumn(Boletim::getN3).setHeader("Nota3");
+        boletim.addColumn(Boletim::getN4).setHeader("Nota4");
+        boletim.addColumn(Boletim::isAprovacao).setHeader("Aprovação");
+    }
+    public TelaPrincipalView(BoletimService service) {
+
+        Services Services = new Services();
+        this.service = service;
+        configureGrid();
+        //updateGrid();
 
         //----------------------Componentes-----------------------
 
@@ -38,20 +61,6 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
         H1 h1 = new H1("Turma");
         Button buttonPrimary = new Button();
         Button buttonPrimary2 = new Button();
-
-        //----------------------Componentes Grade-----------------------
-
-        Grid<Boletim> turma = new Grid(Boletim.class, false);
-        setGridSampleData(turma);
-
-        turma.addColumn(Boletim::getMatricula).setHeader("Matricula");
-        turma.addColumn(Boletim::getNome).setHeader("Nome");
-        turma.addColumn(Boletim::getFaltas).setHeader("Faltas");
-        turma.addColumn(Boletim::getN1).setHeader("Nota1");
-        turma.addColumn(Boletim::getN2).setHeader("Nota2");
-        turma.addColumn(Boletim::getN3).setHeader("Nota3");
-        turma.addColumn(Boletim::getN4).setHeader("Nota4");
-        turma.addColumn(Boletim::isAprovacao).setHeader("Aprovação");
 
         //----------------------Botoes-----------------------
 
@@ -94,7 +103,7 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
 
         getContent().add(layoutRow);
         getContent().add(layoutRow2);
-        getContent().add(turma);
+        getContent().add(boletim);
 
         layoutRow.add(h1);
 
@@ -113,8 +122,17 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
         }
 
         @Autowired()
-        private TurmaService samplePersonService;
+        private BoletimService samplePersonService;
 
         record SampleItem(String value, String label, Boolean disabled) {
         }
+
+        /*
+        private void updateGrid() {
+            List<Alunos> listaAlunos = service.findAll();
+            boletim.setItems(listaAlunos);
+
+        }
+
+         */
 }

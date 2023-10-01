@@ -2,13 +2,17 @@ package com.example.application.persistencia;
 
 import com.example.application.data.entity.Alunos;
 import com.example.application.data.entity.Boletim;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+@Service
 public class Services extends GenericDAO {
 
     public void createTable(){
@@ -38,7 +42,7 @@ public class Services extends GenericDAO {
         }
     }
 
-    public void delAluno(Integer matricula){
+    public void delAluno(int matricula){
         String sql = """
                 delete from aluno where matricula = ?
                 """;
@@ -54,7 +58,7 @@ public class Services extends GenericDAO {
 
     public void atualizaAluno(Alunos aluno){
         String sql = """
-                update aluno set nome = ? where id = ?
+                update aluno set nome = ? where matricula = ?
                 """;
         try(Connection c = conn();
             PreparedStatement p = c.prepareStatement(sql)){
@@ -74,7 +78,7 @@ public class Services extends GenericDAO {
         Alunos t = null;
         try(Connection c = conn();
             PreparedStatement p = c.prepareStatement(sql)){
-            p.setInt(1,matricula);
+            p.setLong(1,matricula);
             ResultSet r = p.executeQuery();
             if(r.next()){
                 t = new Alunos();
@@ -86,6 +90,27 @@ public class Services extends GenericDAO {
             e.printStackTrace();
         }
         return Optional.ofNullable(t);
+    }
+
+    public List<Alunos> obterTodosAlunos(){
+        String sql = """
+                select matricula, nome from aluno        
+                """;
+        List<Alunos> lista = new ArrayList<>();
+        try(Connection c = conn();
+            PreparedStatement p = c.prepareStatement(sql)){
+            ResultSet r = p.executeQuery();
+            while(r.next()){
+                Alunos a = new Alunos();
+                a.setMatricula(r.getInt("matricula"));
+                a.setNome(r.getString("nome"));
+                lista.add(a);
+            }
+        }catch (SQLException e){
+            System.out.println("Erro ao obter todos os alunos ");
+            e.printStackTrace();
+        }
+        return lista;
     }
 
     private void removeNota(int matricula){
@@ -157,9 +182,4 @@ public class Services extends GenericDAO {
         }
         return Optional.ofNullable(t);
     }
-
-
-
-
-
 }

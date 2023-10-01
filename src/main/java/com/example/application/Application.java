@@ -2,7 +2,6 @@ package com.example.application;
 
 import com.example.application.data.entity.Alunos;
 import com.example.application.data.entity.Boletim;
-import com.example.application.data.service.TurmaRepository;
 import com.example.application.persistencia.Services;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
@@ -51,8 +50,8 @@ public class Application implements AppShellConfigurator {
 
         SpringApplication.run(Application.class, args);
     }
-
-@Bean
+/*
+    @Bean
     SqlDataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer (DataSource dataSource, SqlInitializationProperties properties, TurmaRepository repository) {
         // This bean ensures the database is only initialized when empty
         return new SqlDataSourceScriptDatabaseInitializer(dataSource, properties) {
@@ -66,4 +65,5 @@ public class Application implements AppShellConfigurator {
         };
     }
 
+ */
 }

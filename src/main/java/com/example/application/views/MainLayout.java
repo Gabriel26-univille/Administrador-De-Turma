@@ -1,6 +1,6 @@
 package com.example.application.views;
 
-import com.example.application.data.service.TurmaService;
+import com.example.application.data.service.BoletimService;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.grid.Grid;
@@ -90,7 +90,7 @@ public class MainLayout extends AppLayout {
     }
 
     @Autowired()
-    private TurmaService samplePersonService;
+    private BoletimService samplePersonService;
 
     record SampleItem(String value, String label, Boolean disabled) {
     }

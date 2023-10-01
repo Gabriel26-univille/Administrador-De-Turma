@@ -11,9 +11,7 @@ public class Alunos {
     private String Nome;
 
 
-    public int getMatricula() {
-        return Matricula;
-    }
+    public int getMatricula() {return Matricula;}
 
     public void setMatricula(int matricula) {
         Matricula = matricula;

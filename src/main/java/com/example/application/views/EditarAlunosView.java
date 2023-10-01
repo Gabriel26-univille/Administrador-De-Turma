@@ -2,7 +2,9 @@ package com.example.application.views;
 
 import com.example.application.data.entity.Alunos;
 import com.example.application.data.service.AlunosService;
+import com.example.application.persistencia.Services;
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.grid.Grid;
@@ -14,22 +16,41 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.TabSheet;
-import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import java.util.List;
 
 @PageTitle("Editar Alunos")
 @Route(value = "editar-alunos", layout = MainLayout.class)
 @Uses(Icon.class)
 public class EditarAlunosView extends Composite<VerticalLayout> {
+    AlunosService service;
 
-    public EditarAlunosView() {
+    //----------------------Componentes Grade-----------------------
+    private Grid<Alunos> grid = new Grid(Alunos.class, false);
+
+    private void configureGrid() {
+        grid.addColumn(Alunos::getMatricula)
+                .setHeader("Matricula")
+                .setFlexGrow(0)
+                .setWidth("100px");
+        grid.addColumn(Alunos::getNome).setHeader("Nome");
+    }
+
+    public EditarAlunosView(AlunosService service) {
+
+        Services Services = new Services();
+        this.service = service;
+        configureGrid();
+        updateGrid();
 
         //----------------------Componentes-----------------------
+
 
         HorizontalLayout addAluno = new HorizontalLayout();
         HorizontalLayout ediAluno = new HorizontalLayout();
@@ -39,25 +60,14 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
         TabSheet tabSheet = new TabSheet();
         Button voltar = new Button(new Icon(VaadinIcon.ARROW_BACKWARD));
 
-        NumberField matriculaEditar = new NumberField();
-        NumberField matriculaExcluir = new NumberField();
+        IntegerField matriculaEditar = new IntegerField();
+        IntegerField matriculaExcluir = new IntegerField();
         TextField novoAlunoNome = new TextField();
         TextField editarAlunoNome = new TextField();
 
         Button adicionarAluno = new Button("Adicionar");
         Button editarAluno = new Button("Editar");
         Button excluirAluno = new Button("Excluir");
-
-        //----------------------Componentes Grade-----------------------
-
-        Grid<Alunos> alunos = new Grid(Alunos.class, false);
-        setGridSampleData(alunos);
-
-        alunos.addColumn(Alunos::getMatricula)
-                .setHeader("Matricula")
-                .setFlexGrow(0)
-                .setWidth("100px");
-        alunos.addColumn(Alunos::getNome).setHeader("Nome");
 
         //----------------------Alinhamentos-----------------------
 
@@ -90,11 +100,34 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
                         ui.navigate("tela-principal"))
         );
 
-        /*
-        adicionarAluno.addClickListener();
-        editarAluno.addClickListener();
-        excluirAluno.addClickListener();
-        */
+        adicionarAluno.addClickListener(
+                alunoAd -> {
+                    Alunos aluno = new Alunos();
+                    aluno.setNome(novoAlunoNome.getValue());
+                    Services.inserirAluno(aluno);
+                    updateGrid();
+                    grid.getDataProvider().refreshAll();
+                });
+        adicionarAluno.addClickShortcut(Key.ENTER);
+
+        editarAluno.addClickListener(
+                alunoEd ->{
+                    Alunos aluno = new Alunos();
+                    aluno.setNome(editarAlunoNome.getValue());
+                    aluno.setMatricula(matriculaEditar.getValue());
+                    Services.atualizaAluno(aluno);
+                    updateGrid();
+                    grid.getDataProvider().refreshAll();
+                });
+        editarAluno.addClickShortcut(Key.ENTER);
+
+        excluirAluno.addClickListener(
+                alunoEx ->{
+                    Services.delAluno(matriculaExcluir.getValue());
+                    updateGrid();
+                    grid.getDataProvider().refreshAll();
+                });
+        excluirAluno.addClickShortcut(Key.ENTER);
 
         //----------------------Abas-----------------------
 
@@ -119,7 +152,7 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
 
         getContent().add(voltar);
         getContent().add(h1);
-        getContent().add(alunos);
+        getContent().add(grid);
         getContent().add(tabSheet);
     }
 
@@ -136,4 +169,21 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
 
     record SampleItem(String value, String label, Boolean disabled) {
     }
+
+    private void updateGrid() {
+        List<Alunos> listaAlunos = service.findAll();
+        grid.setItems(listaAlunos);
+
+    }
+
+        /*
+        var opt = Services.obterPelaMatricula(3);
+        if(opt.isPresent()){
+            Alunos a = opt.get();
+            System.out.println(a.getNome());
+
+
+        }
+        */
+
 }
