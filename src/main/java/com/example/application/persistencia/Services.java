@@ -141,7 +141,7 @@ public class Services extends GenericDAO {
 
     public List<Boletim> obterTodoBoletim(){
         String sql = """
-                select nota1,nota2,nota3,nota4,matricula,aprovado,faltas,nome from boletim inner join alunos on aluno.matricula = boletim.matricula
+                select nota1,nota2,nota3,nota4,aluno.matricula,aprovado,faltas,nome from boletim inner join aluno on aluno.matricula = boletim.matricula
                 """;
         List<Boletim> lista = new ArrayList<>();
         try(Connection c = conn();

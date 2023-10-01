@@ -49,9 +49,9 @@ public class BoletimService {
 
     @Autowired
     private Services services;
-    /*
+
     public List<Boletim> findAll(){
         return services.obterTodoBoletim();
     }
-    */
+
 }

@@ -50,7 +50,7 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
         Services Services = new Services();
         this.service = service;
         configureGrid();
-        //updateGrid();
+        updateGrid();
 
         //----------------------Componentes-----------------------
 
@@ -127,12 +127,12 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
         record SampleItem(String value, String label, Boolean disabled) {
         }
 
-        /*
+
         private void updateGrid() {
-            List<Alunos> listaAlunos = service.findAll();
-            boletim.setItems(listaAlunos);
+            List<Boletim> listaBoletim = service.findAll();
+            boletim.setItems(listaBoletim);
 
         }
 
-         */
+
 }
