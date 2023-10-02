@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.Uses;
+import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
 
+import java.util.Comparator;
 import java.util.List;
 
 @PageTitle("Editar Notas")
@@ -38,6 +40,7 @@ public class EditarNotasView extends Composite<VerticalLayout> {
 
     //----------------------Componentes Grade-----------------------
     private Grid<Boletim> boletim = new Grid(Boletim.class, false);
+
     private void configureGrid() {
         boletim.addColumn(Boletim::getMatricula)
                 .setFlexGrow(0)
@@ -49,8 +52,9 @@ public class EditarNotasView extends Composite<VerticalLayout> {
         boletim.addColumn(Boletim::getN2).setHeader("Nota2");
         boletim.addColumn(Boletim::getN3).setHeader("Nota3");
         boletim.addColumn(Boletim::getN4).setHeader("Nota4");
-        boletim.addColumn(Boletim::isAprovacao).setHeader("Aprovado");
+        boletim.getColumnByKey("aprovadoColumn");
     }
+
     public EditarNotasView(BoletimService service) {
 
         Services Services = new Services();
@@ -72,6 +76,21 @@ public class EditarNotasView extends Composite<VerticalLayout> {
         NumberField nota4 = new NumberField("Nota 4");
         IntegerField matricula = new IntegerField("Matricula");
         Button editarNota = new Button("Confirmar");
+
+        boletim.addComponentColumn(item -> {
+                    Icon icon;
+                    if(item.isAprovacao()){
+                        icon = VaadinIcon.CHECK_CIRCLE.create();
+                        icon.setColor("green");
+                    } else {
+                        icon = VaadinIcon.CLOSE_CIRCLE.create();
+                        icon.setColor("red");
+                    }
+                    return icon;
+                })
+                .setKey("aprovadoColumn")
+                .setHeader("Aprovado")
+                .setComparator(Comparator.comparing(Boletim::isAprovacao));
 
         //----------------------Alinhamentos-----------------------
 

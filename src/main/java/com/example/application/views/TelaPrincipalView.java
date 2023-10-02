@@ -11,6 +11,7 @@ import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -23,6 +24,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.Comparator;
 import java.util.List;
 
 @PageTitle("Tela Principal")
@@ -43,7 +45,7 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
         boletim.addColumn(Boletim::getN2).setHeader("Nota2");
         boletim.addColumn(Boletim::getN3).setHeader("Nota3");
         boletim.addColumn(Boletim::getN4).setHeader("Nota4");
-        boletim.addColumn(Boletim::isAprovacao).setHeader("Aprovação");
+        boletim.getColumnByKey("aprovadoColumn");
     }
     public TelaPrincipalView(BoletimService service) {
 
@@ -61,6 +63,21 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
         H1 h1 = new H1("Turma");
         Button buttonPrimary = new Button();
         Button buttonPrimary2 = new Button();
+
+        boletim.addComponentColumn(item -> {
+                    Icon icon;
+                    if(item.isAprovacao()){
+                        icon = VaadinIcon.CHECK_CIRCLE.create();
+                        icon.setColor("green");
+                    } else {
+                        icon = VaadinIcon.CLOSE_CIRCLE.create();
+                        icon.setColor("red");
+                    }
+                    return icon;
+                })
+                .setKey("aprovadoColumn")
+                .setHeader("Aprovado")
+                .setComparator(Comparator.comparing(Boletim::isAprovacao));
 
         //----------------------Botoes-----------------------
 
