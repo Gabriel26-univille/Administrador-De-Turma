@@ -72,6 +72,7 @@ public class Services extends GenericDAO {
         String sql = """
                 delete from aluno where matricula = ?
                 """;
+        removeNota(matricula);
         try(Connection c = conn();
             PreparedStatement p = c.prepareStatement(sql)){
             p.setInt(1,matricula);
@@ -180,11 +181,10 @@ public class Services extends GenericDAO {
         }
     }
 
-    public void inserirNota(Boletim boletim){
+    private void inserirNota(Boletim boletim){
         String sql = """
                 insert into boletim(nota1,nota2,nota3,nota4,matricula,aprovado,faltas) values(?,?,?,?,?,?,?)
                 """;
-        removeNota(boletim.getMatricula());
         try(Connection c = conn();
             PreparedStatement p = c.prepareStatement(sql)){
             p.setFloat(1,boletim.getN1());
@@ -203,6 +203,30 @@ public class Services extends GenericDAO {
             e.printStackTrace();
         }
     }
+
+    public void alterBoletim(Boletim boletim){
+        String sql = """
+                update boletim set nota1 = ? ,nota2 = ? ,nota3 = ? ,nota4 = ? ,aprovado = ? ,faltas = ? where matricula = ?
+                """;
+        try(Connection c = conn();
+            PreparedStatement p = c.prepareStatement(sql)){
+            p.setFloat(1,boletim.getN1());
+            p.setFloat(2,boletim.getN2());
+            p.setFloat(3,boletim.getN3());
+            p.setFloat(4,boletim.getN4());
+            p.setInt(7,boletim.getMatricula());
+            p.setInt(6,boletim.getFaltas());
+            boolean aprovado = false;
+            float mean = (boletim.getN1() + boletim.getN2() + boletim.getN3() + boletim.getN4())/4;
+            if (mean >= 7.0){aprovado=true;}
+            p.setBoolean(5,aprovado);
+            p.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("Erro ao alterar boletim ");
+            e.printStackTrace();
+        }
+    }
+
 
     public Optional<Boletim> obterBoletim(Integer matricula){
         String sql = """
