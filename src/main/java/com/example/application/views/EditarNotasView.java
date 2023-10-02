@@ -140,7 +140,7 @@ public class EditarNotasView extends Composite<VerticalLayout> {
                         boletim.setN4(nota4.getValue().floatValue());
                         boletim.setMatricula(matricula.getValue());
                         boletim.setFaltas(faltas.getValue());
-                        Services.inserirNota(boletim);
+                        Services.alterBoletim(boletim);
                     }}}}}
                     updateGrid();
                 });
