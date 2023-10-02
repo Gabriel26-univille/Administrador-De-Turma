@@ -132,6 +132,7 @@ public class EditarNotasView extends Composite<VerticalLayout> {
                         if(nota2.getValue().floatValue() <= 10 & nota2.getValue().floatValue() >= 0){
                             if(nota3.getValue().floatValue() <= 10 & nota3.getValue().floatValue() >= 0){
                                 if(nota4.getValue().floatValue() <= 10 & nota4.getValue().floatValue() >= 0){
+                                    if(faltas.getValue() >= 0){
                         Boletim boletim = new Boletim();
                         boletim.setN1(nota1.getValue().floatValue());
                         boletim.setN2(nota2.getValue().floatValue());
@@ -140,7 +141,7 @@ public class EditarNotasView extends Composite<VerticalLayout> {
                         boletim.setMatricula(matricula.getValue());
                         boletim.setFaltas(faltas.getValue());
                         Services.inserirNota(boletim);
-                    }}}}
+                    }}}}}
                     updateGrid();
                 });
         editarNota.addClickShortcut(Key.ENTER);
