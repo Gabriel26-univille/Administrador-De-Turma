@@ -24,6 +24,7 @@ import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import java.util.List;
+import java.util.Objects;
 
 @PageTitle("Editar Alunos")
 @Route(value = "editar-alunos", layout = MainLayout.class)
@@ -102,19 +103,23 @@ public class EditarAlunosView extends Composite<VerticalLayout> {
 
         adicionarAluno.addClickListener(
                 alunoAd -> {
-                    Alunos aluno = new Alunos();
-                    aluno.setNome(novoAlunoNome.getValue());
-                    Services.inserirAluno(aluno);
+                    if(!Objects.equals(novoAlunoNome.getValue(), "")) {
+                        Alunos aluno = new Alunos();
+                        aluno.setNome(novoAlunoNome.getValue());
+                        Services.inserirAluno(aluno);
+                    }
                     updateGrid();
                 });
         adicionarAluno.addClickShortcut(Key.ENTER);
 
         editarAluno.addClickListener(
                 alunoEd ->{
-                    Alunos aluno = new Alunos();
-                    aluno.setNome(editarAlunoNome.getValue());
-                    aluno.setMatricula(matriculaEditar.getValue());
-                    Services.atualizaAluno(aluno);
+                    if(!Objects.equals(editarAlunoNome.getValue(), "")) {
+                        Alunos aluno = new Alunos();
+                        aluno.setNome(editarAlunoNome.getValue());
+                        aluno.setMatricula(matriculaEditar.getValue());
+                        Services.atualizaAluno(aluno);
+                    }
                     updateGrid();
                 });
         editarAluno.addClickShortcut(Key.ENTER);
