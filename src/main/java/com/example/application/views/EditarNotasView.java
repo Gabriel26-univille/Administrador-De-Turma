@@ -5,9 +5,7 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
@@ -21,12 +19,9 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.example.application.data.entity.Boletim;
 import com.example.application.data.service.BoletimService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 
 
 import java.util.Comparator;
@@ -79,7 +74,7 @@ public class EditarNotasView extends Composite<VerticalLayout> {
 
         boletim.addComponentColumn(item -> {
                     Icon icon;
-                    if(item.isAprovacao()){
+                    if(item.getAprovacao()){
                         icon = VaadinIcon.CHECK_CIRCLE.create();
                         icon.setColor("green");
                     } else {
@@ -90,7 +85,7 @@ public class EditarNotasView extends Composite<VerticalLayout> {
                 })
                 .setKey("aprovadoColumn")
                 .setHeader("Aprovado")
-                .setComparator(Comparator.comparing(Boletim::isAprovacao));
+                .setComparator(Comparator.comparing(Boletim::getAprovacao));
 
         //----------------------Alinhamentos-----------------------
 

@@ -1,6 +1,5 @@
 package com.example.application.views;
 
-import com.example.application.data.entity.Alunos;
 import com.example.application.data.entity.Boletim;
 import com.example.application.data.service.BoletimService;
 import com.example.application.persistencia.Services;
@@ -66,7 +65,7 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
 
         boletim.addComponentColumn(item -> {
                     Icon icon;
-                    if(item.isAprovacao()){
+                    if(item.getAprovacao()){
                         icon = VaadinIcon.CHECK_CIRCLE.create();
                         icon.setColor("green");
                     } else {
@@ -77,7 +76,7 @@ public class TelaPrincipalView extends Composite<VerticalLayout> {
                 })
                 .setKey("aprovadoColumn")
                 .setHeader("Aprovado")
-                .setComparator(Comparator.comparing(Boletim::isAprovacao));
+                .setComparator(Comparator.comparing(Boletim::getAprovacao));
 
         //----------------------Botoes-----------------------
 

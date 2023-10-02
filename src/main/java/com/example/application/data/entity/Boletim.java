@@ -73,7 +73,7 @@ public class Boletim {
         Faltas = falta;
     }
 
-    public boolean isAprovacao() {
+    public boolean getAprovacao() {
         return Aprovacao;
     }
 
