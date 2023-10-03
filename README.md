@@ -9,3 +9,6 @@ Histórias de usuário:
 - Quero que o sistema mostre em cada tela uma tabela com dados relevantes sobre os alunos;
 - O sistema só deve permitir adicionar notas de 0 a 10;
 - O sistema não deve realizar qualquer ação se há um campo em branco.
+
+Diagrama de Classes UML:
+![Diagrama de Classes UML](https://github.com/Gabriel26-univille/administrador-de-turma/assets/50593937/417e9b57-2b9a-4bb6-bc3f-34c49afb9755)
